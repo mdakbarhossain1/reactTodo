@@ -1,48 +1,70 @@
 import { useState } from "react";
 import "./style.css";
 
-function generateId() {
-    return Math.floor(Math.random() * 10);
-}
 
 function Todos() {
-    const [todos, setTodos] = useState([]);
-    const [input, setInput] = useState("");
+    const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState("");
 
-    const handleSubmit = () => {
-        setTodos((todos) =>
-            todos.concat({
-                text: input,
-                id: generateId(),
-            })
-        );
-        setInput("");
+    const handleChange = (event) => {
+        setNewTask(event.target.value);
     };
 
-    const removeTodo = (id) =>
-        setTodos((todos) => todos.filter((t) => t.id !== id));
+    const addTask = () => {
+        if (newTask.trim() !== "") {
+            setTasks([...tasks, newTask]);
+            setNewTask("");
+        }
+    };
+
+    const deleteTask = (index) => {
+        const updatedTasks = tasks.filter((_, i) => i !== index);
+        setTasks(updatedTasks);
+    };
+
+    const editTask = (index) => {
+        const editedTask = prompt("Edit task:", tasks[index]);
+        if (editedTask !== null) {
+            const updatedTasks = [...tasks];
+            updatedTasks[index] = editedTask;
+            setTasks(updatedTasks);
+        }
+    };
 
     return (
-        <div className="container">
-            <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="New Todo"
-            />
 
-            <button onClick={handleSubmit}>Submit</button>
+        <div>
+            <div>
+                <h1>Simple todo with React Js</h1>
+                <p>You can added task Remove and edit task </p>
+            </div>
 
-            <ul className="todos-list">
-                {todos.map(({ text, id }) => (
-                    <li key={id} className="todo">
-                        <span>{text}</span>
-                        <button className="close" onClick={() => removeTodo(id)}>
-                            X
-                        </button>
-                    </li>
-                ))}
-            </ul>
+            <div className="container">
+                <span className="input">
+                    <input
+                        type="text"
+                        value={newTask}
+                        onChange={handleChange}
+                        placeholder="New Todo"
+                    />
+                </span>
+
+                <button onClick={addTask}>Submit</button>
+
+                <ul className="todos-list">
+                    {tasks.map((text, index) => (
+                        <li key={index} className="todo">
+                            <span>{text}</span>
+                            <button className="close" onClick={() => deleteTask(index)}>
+                                X
+                            </button>
+                            <button className="close" onClick={() => editTask(index)}>
+                                Edit
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
