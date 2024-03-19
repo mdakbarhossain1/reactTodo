@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 
 
@@ -12,14 +12,28 @@ function Todos() {
 
     const addTask = () => {
         if (newTask.trim() !== "") {
-            setTasks([...tasks, newTask]);
+            const updatedTasks = [...tasks, newTask];
+            setTasks(updatedTasks);
             setNewTask("");
+            saveTasks(updatedTasks);
         }
     };
+
+    useEffect(() => {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        if (Array.isArray(storedTasks)) { // Check if storedTasks is an array
+            setTasks(storedTasks);
+        }
+    }, []);
+
+    function saveTasks(items) {
+        localStorage.setItem('tasks', JSON.stringify(items));
+    }
 
     const deleteTask = (index) => {
         const updatedTasks = tasks.filter((_, i) => i !== index);
         setTasks(updatedTasks);
+        saveTasks(updatedTasks);
     };
 
     const editTask = (index) => {
@@ -28,13 +42,14 @@ function Todos() {
             const updatedTasks = [...tasks];
             updatedTasks[index] = editedTask;
             setTasks(updatedTasks);
+            saveTasks(updatedTasks);
         }
     };
 
     return (
 
         <div>
-            <div>
+            <div className="todos-title">
                 <h1>Simple todo with React Js</h1>
                 <p>You can added task Remove and edit task </p>
             </div>

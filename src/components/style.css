@@ -39,6 +39,22 @@ body {
     }
   }
 
+  .todos-title{
+    color: #f0f8ff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .todos-title h1{
+    font-size: 3.3rem;
+    margin-bottom: 15px;
+  }
+
+  .todos-title p {
+    font-size: 1.5rem;
+  }
+
+
 .container {
     background: #fcfff3;
     padding: 50px;
