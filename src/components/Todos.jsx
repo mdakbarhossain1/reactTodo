@@ -52,6 +52,7 @@ function Todos() {
             <div className="todos-title">
                 <h1>Simple todo with React Js</h1>
                 <p>You can added task Remove and edit task </p>
+                <p>Data Also save on Your LocalStorage </p>
             </div>
 
             <div className="container">
